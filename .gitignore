@@ -1,8 +1,17 @@
 node_modules/
-platforms/
 plugins/
-www
+
+#Firebase configuration object
+src/app/credentials.ts
+
+#Platforms
 android
 ios
-.history
+platforms/
 .gradle
+
+#Capacitator folder sync
+www
+
+#local files versions
+.history
