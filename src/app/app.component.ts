@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 // import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 // import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+const {SplashScreen, StatusBar } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -18,9 +20,19 @@ export class AppComponent {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      // this.statusBar.styleDefault();
-      // this.splashScreen.hide();
+    SplashScreen.hide().catch(error => {
+      console.error(error);
+    });
+
+    StatusBar.hide().catch(error => {
+      console.error(error);
     });
   }
+
+  // initializeApp() {
+  //   this.platform.ready().then(() => {
+  //     // this.statusBar.styleDefault();
+  //     // this.splashScreen.hide();
+  //   });
+  // }
 }

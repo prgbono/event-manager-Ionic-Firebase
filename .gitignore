@@ -1,4 +1,8 @@
 node_modules/
 platforms/
 plugins/
+www
+android
+ios
 .history
+.gradle
