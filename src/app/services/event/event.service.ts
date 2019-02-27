@@ -37,6 +37,31 @@ export class EventService {
   getEventDetail(eventId: string): firebase.firestore.DocumentReference {
     return this.eventListRef.doc(eventId);
   }
+
+  // addGuests with no transaction security
+  /*addGuest (guestName: string, eventId: string, eventPrice: number): Promise<firebase.firestore.DocumentReference> {
+    return this.eventListRef
+      .doc(eventId)
+      .collection('guestList')
+      .add({ guestName });
+  }*/
+
+  addGuest(guestName: string, eventId: string, eventPrice: number): Promise<void> {
+    // The transaction takes the current state of the event and updates the revenue property for it, and then it returns the new value making sure it is correct.
+    return this.eventListRef
+      .doc(eventId)
+      .collection('guestList')
+      .add({ guestName })
+      .then(() => {
+        return firebase.firestore().runTransaction(transaction => {
+          return transaction.get(this.eventListRef.doc(eventId)).then(eventDoc => {
+            const newRevenue = eventDoc.data().revenue + eventPrice;
+            transaction.update(this.eventListRef.doc(eventId), { revenue: newRevenue });
+          });
+        });
+      });
+  }
+  
 }
 
 
